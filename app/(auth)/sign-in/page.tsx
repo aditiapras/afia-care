@@ -24,14 +24,14 @@ export default function SignInPage() {
   });
 
   async function onSubmit(values: SignInValues) {
-    const { error } = await authClient.signIn.username(values, {
+    const { data, error } = await authClient.signIn.username(values, {
       onError: (ctx) => {
         toast.error(ctx.error.message);
       },
     });
     if (!error) {
       toast.success("Signed in");
-      router.push("/");
+      router.push(data?.user.role === "admin" ? "/p" : "/d");
     }
   }
 
